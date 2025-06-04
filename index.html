@@ -507,6 +507,34 @@
             }
         });
         
+        // Swipe support for mobile/touch devices
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        function handleTouchStart(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }
+
+        function handleTouchEnd(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleGesture();
+        }
+
+        function handleGesture() {
+            const threshold = 50; // px
+            if (touchEndX < touchStartX - threshold) {
+                // Swipe left → next slide
+                changeSlide(1);
+            }
+            if (touchEndX > touchStartX + threshold) {
+                // Swipe right → previous slide
+                changeSlide(-1);
+            }
+        }
+
+        document.addEventListener('touchstart', handleTouchStart, false);
+        document.addEventListener('touchend', handleTouchEnd, false);
+        
         // Initialize
         showSlide(0);
     </script>
